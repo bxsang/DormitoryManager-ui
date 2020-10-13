@@ -260,7 +260,7 @@
                   id="defaultFormContactMessageEx"
                   class="form-control"
                   rows="3"
-                  v-model="csv_file_data"
+                  v-model="students_bulk_text"
                 />
               </mdb-modal-body>
               <mdb-modal-footer>
@@ -272,7 +272,7 @@
                 </mdb-btn>
                 <mdb-btn
                   color="primary"
-                  @click.native.prevent="importLocalFile"
+                  @click.native.prevent="addStudentBulk"
                 >
                   Upload
                 </mdb-btn>
@@ -370,7 +370,8 @@ export default {
       upload_modal: false,
       success_modal: false,
       failed_modal: false,
-      csv_file_data: '',
+      students_bulk: [],
+      students_bulk_text: '',
     };
   },
   computed: {
@@ -441,6 +442,18 @@ export default {
           this.failed_modal = true;
         });
     },
+    addStudentBulk() {
+      StudentsManageService.addStudentBulk(this.students_bulk)
+        .then(() => {
+          this.add_modal = false;
+          this.success_modal = true;
+          this.refreshStudents();
+        })
+        .catch((error) => {
+          this.message = `Error: ${error}`;
+          this.failed_modal = true;
+        });
+    },
     editStudent() {
       StudentsManageService.editStudent(this.student)
         .then(() => {
@@ -484,14 +497,18 @@ export default {
         this.$papa.parse(file, {
           header: true,
           complete(results) {
-            const result = JSON.stringify(results.data);
+            const result = results.data;
             if (result) {
               success(result);
             }
           },
         });
       });
-      this.csv_file_data = data;
+      this.students_bulk_text = JSON.stringify(data);
+      data.forEach(this.bindCSV);
+    },
+    bindCSV(value) {
+      this.students_bulk.push(value);
     },
   },
   mounted() { this.getStudents(); },

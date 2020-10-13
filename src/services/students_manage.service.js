@@ -15,6 +15,15 @@ class StudentsManageService {
     return response;
   }
 
+  async addStudentBulk(students) {
+    const endpoint = '/students';
+    const response = await Repository.post(endpoint, students);
+    if (!response.success) {
+      throw new Error(response.message);
+    }
+    return response;
+  }
+
   async editStudent(student) {
     const endpoint = `/students/${student.id}`;
     const response = await Repository.put(endpoint, student);
