@@ -260,6 +260,7 @@
                   id="defaultFormContactMessageEx"
                   class="form-control"
                   rows="3"
+                  v-model="csv_file_data"
                 />
               </mdb-modal-body>
               <mdb-modal-footer>
@@ -369,7 +370,7 @@ export default {
       upload_modal: false,
       success_modal: false,
       failed_modal: false,
-      csv_file_data: {},
+      csv_file_data: '',
     };
   },
   computed: {
@@ -476,15 +477,21 @@ export default {
       const csv = this.$papa.unparse(this.students_json, config);
       this.$papa.download(csv, 'student_list');
     },
-    importLocalFile() {
+    async importLocalFile() {
       // eslint-disable-next-line no-restricted-globals
       const file = event.target.files[0];
-      this.$papa.parse(file, {
-        header: true,
-        complete(results) {
-          this.csv_file_data = results.data;
-        },
+      const data = await new Promise((success) => {
+        this.$papa.parse(file, {
+          header: true,
+          complete(results) {
+            const result = JSON.stringify(results.data);
+            if (result) {
+              success(result);
+            }
+          },
+        });
       });
+      this.csv_file_data = data;
     },
   },
   mounted() { this.getStudents(); },
