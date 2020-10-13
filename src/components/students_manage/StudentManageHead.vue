@@ -7,7 +7,7 @@
       <div class="mask rgba-purple-light">
         <div class="container flex-center">
           <div class="white-text text-center">
-            <h1>Quản lý sinh viên</h1>
+            <h1><strong>Quản lý sinh viên</strong></h1>
           </div>
         </div>
       </div>
