@@ -7,7 +7,7 @@ class StudentsManageService {
   }
 
   async addStudent(student) {
-    const endpoint = '/students';
+    const endpoint = `/students/${student.id}`;
     const response = await Repository.post(endpoint, student);
     if (!response.success) {
       throw new Error('response.message');
