@@ -255,6 +255,12 @@
                   type="file"
                   @change="importLocalFile"
                 />
+                <textarea
+                  type="text"
+                  id="defaultFormContactMessageEx"
+                  class="form-control"
+                  rows="3"
+                />
               </mdb-modal-body>
               <mdb-modal-footer>
                 <mdb-btn
@@ -342,7 +348,6 @@
 </template>
 
 <script>
-// import exportFromJSON from 'export-from-json';
 import StudentManageHead from './StudentManageHead.vue';
 import StudentsManageService from '../../services/students_manage.service';
 import Student from '../../models/student';
@@ -472,15 +477,14 @@ export default {
       this.$papa.download(csv, 'student_list');
     },
     importLocalFile() {
-      const input = document.getElementById('students_file');
-      this.$papa.parse(input.files[0], {
+      // eslint-disable-next-line no-restricted-globals
+      const file = event.target.files[0];
+      this.$papa.parse(file, {
         header: true,
         complete(results) {
-          // console.log(results);
-          this.csv_file_data = results;
+          this.csv_file_data = results.data;
         },
       });
-      console.log(this.csv_file_data);
     },
   },
   mounted() { this.getStudents(); },
