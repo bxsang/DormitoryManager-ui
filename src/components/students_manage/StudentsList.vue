@@ -39,6 +39,15 @@
               rounded
               size="sm"
               class="px-2"
+              @click.native.prevent="getStudentArrangements"
+            >
+              <em class="fas fa-info mt-0" />
+            </mdb-btn>
+            <mdb-btn
+              outline="white"
+              rounded
+              size="sm"
+              class="px-2"
               @click.native="openAddStudentModal"
             >
               <em class="fas fa-plus mt-0" />
@@ -61,6 +70,32 @@
             >
               <em class="fas fa-times mt-0" />
             </mdb-btn>
+            <mdb-modal
+              :show="info_modal"
+              @close="info_modal = false"
+              info
+            >
+              <mdb-modal-header>
+                <mdb-modal-title>Thông tin</mdb-modal-title>
+              </mdb-modal-header>
+              <mdb-modal-body class="text-center">
+                <!-- <mdb-input
+                  type="textarea"
+                  label="Phòng"
+                  :rows="5"
+                  v-model="student_arrangements"
+                /> -->
+                <p>{{ student_arrangements }}</p>
+              </mdb-modal-body>
+              <mdb-modal-footer center>
+                <mdb-btn
+                  outline="info"
+                  @click.native="info_modal = false"
+                >
+                  Đóng
+                </mdb-btn>
+              </mdb-modal-footer>
+            </mdb-modal>
             <mdb-modal
               :show="add_modal"
               @close="add_modal = false"
@@ -257,7 +292,6 @@
                 />
                 <textarea
                   type="text"
-                  id="defaultFormContactMessageEx"
                   class="form-control"
                   rows="3"
                   v-model="students_bulk_text"
@@ -365,6 +399,7 @@ export default {
       selected: null,
       student: new Student('', '', '', '', '', ''),
       message: '',
+      info_modal: false,
       add_modal: false,
       edit_modal: false,
       upload_modal: false,
@@ -372,6 +407,7 @@ export default {
       failed_modal: false,
       students_bulk: [],
       students_bulk_text: '',
+      student_arrangements: '',
     };
   },
   computed: {
@@ -509,6 +545,25 @@ export default {
     },
     bindCSV(value) {
       this.students_bulk.push(value);
+    },
+    getStudentArrangements() {
+      const { selected } = this;
+      if (selected) {
+        this.student = new Student(selected.id, selected.name,
+          selected.password, selected.hometown, selected.nationality, selected.faculty);
+      }
+      StudentsManageService.getStudentArrangements(this.student)
+        .then((response) => {
+          this.student_arrangements = '';
+          for (const arrangement of response) {
+            this.student_arrangements += `${arrangement.semeter_name}: ${arrangement.room_name}`;
+          }
+          this.info_modal = true;
+        })
+        .catch((error) => {
+          this.message = `Error: ${error}`;
+          this.failed_modal = true;
+        });
     },
   },
   mounted() { this.getStudents(); },

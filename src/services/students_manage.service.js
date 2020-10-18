@@ -36,6 +36,15 @@ class StudentsManageService {
   deteteStudent(student) {
     return Repository.delete(`/students/${student.id}`);
   }
+
+  async getStudentArrangements(student) {
+    const endpoint = `/students/${student.id}/arrangements`;
+    const response = await Repository.get(endpoint);
+    if (!response) {
+      throw new Error(response);
+    }
+    return response;
+  }
 }
 
 export default new StudentsManageService();
