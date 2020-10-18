@@ -29,6 +29,9 @@ export default {
       if (currentPage === '/Buildings') {
         return 'Quản lý Toà nhà';
       }
+      if (currentPage === '/Rooms') {
+        return 'Quản lý phòng';
+      }
       return '';
     },
   },
