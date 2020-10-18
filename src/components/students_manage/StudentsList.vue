@@ -79,12 +79,6 @@
                 <mdb-modal-title>Thông tin</mdb-modal-title>
               </mdb-modal-header>
               <mdb-modal-body class="text-center">
-                <!-- <mdb-input
-                  type="textarea"
-                  label="Phòng"
-                  :rows="5"
-                  v-model="student_arrangements"
-                /> -->
                 <p>{{ student_arrangements }}</p>
               </mdb-modal-body>
               <mdb-modal-footer center>
