@@ -7,10 +7,24 @@
       <div class="mask rgba-purple-light">
         <div class="container flex-center">
           <div class="white-text text-center">
-            <h1><strong>Quản lý sinh viên</strong></h1>
+            <h1><strong>{{ text }}</strong></h1>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  computed: {
+    text() {
+      const currentPage = this.$route.path;
+      if (currentPage === '/StudentsList') {
+        return 'Quản lý sinh viên';
+      }
+      return '';
+    },
+  },
+};
+</script>

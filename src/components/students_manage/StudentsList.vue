@@ -1,6 +1,6 @@
 <template>
   <div class="student_list-page">
-    <student-manage-head />
+    <Header />
     <mdb-container
       class="pt-5"
     >
@@ -349,13 +349,13 @@
 </template>
 
 <script>
-import StudentManageHead from './StudentManageHead.vue';
+import Header from '../Header.vue';
 import StudentsManageService from '../../services/students_manage.service';
 import Student from '../../models/student';
 
 export default {
   components: {
-    StudentManageHead,
+    Header,
   },
   data() {
     return {
