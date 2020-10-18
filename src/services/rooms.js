@@ -27,6 +27,15 @@ class RoomsService {
   deteteRoom(room) {
     return Repository.delete(`/rooms/${room.name}`);
   }
+
+  async getRoomArrangements(room) {
+    const endpoint = `/rooms/${room.name}/arrangements`;
+    const response = await Repository.get(endpoint);
+    if (!response) {
+      throw new Error(response);
+    }
+    return response;
+  }
 }
 
 export default new RoomsService();

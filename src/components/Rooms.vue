@@ -38,6 +38,15 @@
               rounded
               size="sm"
               class="px-2"
+              @click.native.prevent="getRoomArrangements"
+            >
+              <em class="fas fa-info mt-0" />
+            </mdb-btn>
+            <mdb-btn
+              outline="white"
+              rounded
+              size="sm"
+              class="px-2"
               @click.native="openAddRoomModal"
             >
               <em class="fas fa-plus mt-0" />
@@ -51,6 +60,26 @@
             >
               <em class="fas fa-times mt-0" />
             </mdb-btn>
+            <mdb-modal
+              :show="info_modal"
+              @close="info_modal = false"
+              info
+            >
+              <mdb-modal-header>
+                <mdb-modal-title>Thông tin</mdb-modal-title>
+              </mdb-modal-header>
+              <mdb-modal-body class="text-center">
+                <p>{{ room_arrangements }}</p>
+              </mdb-modal-body>
+              <mdb-modal-footer center>
+                <mdb-btn
+                  outline="info"
+                  @click.native="info_modal = false"
+                >
+                  Đóng
+                </mdb-btn>
+              </mdb-modal-footer>
+            </mdb-modal>
             <mdb-modal
               :show="add_modal"
               @close="add_modal = false"
@@ -236,6 +265,7 @@ export default {
       selected: null,
       room: new Room('', '', ''),
       message: '',
+      info_modal: false,
       add_modal: false,
       edit_modal: false,
       upload_modal: false,
@@ -243,6 +273,7 @@ export default {
       failed_modal: false,
       rooms_bulk: [],
       rooms_bulk_text: '',
+      room_arrangements: '',
     };
   },
   computed: {
@@ -359,6 +390,25 @@ export default {
     },
     bindCSV(value) {
       this.rooms_bulk.push(value);
+    },
+    getRoomArrangements() {
+      const { selected } = this;
+      if (selected) {
+        this.room = new Room(selected.name, selected.capacity, selected.building_name);
+      }
+      RoomsService.getRoomArrangements(this.room)
+        .then((response) => {
+          // this.room_arrangements = '';
+          // for (const arrangement of response) {
+          //   this.room_arrangements += `${arrangement.semeter_name}: ${arrangement.room_name}`;
+          // }
+          this.room_arrangements = JSON.stringify(response);
+          this.info_modal = true;
+        })
+        .catch((error) => {
+          this.message = `Error: ${error}`;
+          this.failed_modal = true;
+        });
     },
   },
   mounted() { this.getRooms(); },
