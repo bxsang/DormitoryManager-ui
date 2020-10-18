@@ -4,6 +4,37 @@
     <mdb-container
       class="pt-5"
     >
+      <div class="px-4 pb-4">
+        <mdb-row>
+          <mdb-col sm="6">
+            <mdb-input
+              type="textarea"
+              outline
+              wrapper-class="custom-purple-border"
+              placeholder="Danh sách sinh viên"
+              v-model="student_list"
+            />
+          </mdb-col>
+          <mdb-col sm="6">
+            <mdb-select
+              multiple
+              select-all
+              @getValue="getSelectedBuildings"
+              :options="buildings"
+              label="Chọn toà nhà"
+            />
+          </mdb-col>
+        </mdb-row>
+        <div class="text-center">
+          <mdb-btn
+            gradient="peach"
+            rounded
+            @click.native="arrange"
+          >
+            Xếp
+          </mdb-btn>
+        </div>
+      </div>
       <div class="card card-cascade narrower">
         <div
           class="view view-cascade gradient-card-header blue-gradient narrower
@@ -39,13 +70,34 @@
         </div>
       </div>
     </mdb-container>
+    <mdb-modal
+      :show="result_modal"
+      @close="result_modal = false"
+      info
+    >
+      <mdb-modal-header>
+        <mdb-modal-title>Info</mdb-modal-title>
+      </mdb-modal-header>
+      <mdb-modal-body class="text-center">
+        <p>{{ result }}</p>
+      </mdb-modal-body>
+      <mdb-modal-footer center>
+        <mdb-btn
+          outline="info"
+          @click.native="result_modal = false"
+        >
+          Đóng
+        </mdb-btn>
+      </mdb-modal-footer>
+    </mdb-modal>
   </div>
 </template>
 
 <script>
 import Header from './Header.vue';
-import SemesterService from '../services/semester';
+import ArrangementsService from '../services/arrangements';
 import Semeter from '../models/semeter';
+import BuildingService from '../services/buildings';
 
 export default {
   components: {
@@ -59,6 +111,11 @@ export default {
       rows: [],
       selected: null,
       message: '',
+      student_list: '',
+      buildings: [],
+      selected_buildings: [],
+      result: '',
+      result_modal: false,
     };
   },
   computed: {
@@ -96,7 +153,7 @@ export default {
       entries.map((entry) => this.rows.push(entry));
     },
     getArrangements() {
-      SemesterService.getArrangements(this.semeter)
+      ArrangementsService.getArrangements(this.semeter)
         .then((json) => this.mapArrangements(json))
         .catch((err) => console.log(err));
     },
@@ -108,7 +165,32 @@ export default {
       const csv = this.$papa.unparse(this.semeters_json, config);
       this.$papa.download(csv, `arrangements_${this.semeter.name}_list`);
     },
+    getBuildings() {
+      BuildingService.getBuildingList()
+        .then((json) => this.mapBuildings(json))
+        .catch((err) => console.log(err));
+    },
+    mapBuildings(buildings) {
+      for (const building of buildings) {
+        this.buildings.push({ text: building.name, value: building.name });
+      }
+    },
+    getSelectedBuildings(value) {
+      this.selected_buildings = value;
+    },
+    arrange() {
+      ArrangementsService.arrange(this.semeter, this.student_list.split('\n'), this.selected_buildings)
+        .then((json) => this.showResult(json.result))
+        .catch((err) => console.log(err));
+    },
+    showResult(result) {
+      this.result = JSON.stringify(result);
+      this.result_modal = true;
+    },
   },
-  mounted() { this.getArrangements(); },
+  mounted() {
+    this.getArrangements();
+    this.getBuildings();
+  },
 };
 </script>
