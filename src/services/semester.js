@@ -6,8 +6,8 @@ class SemesterService {
     return Repository.get('/semeters');
   }
 
-  async addSemeter(semeterName) {
-    const endpoint = `/semeters/${semeterName}`;
+  async addSemeter(semeter) {
+    const endpoint = `/semeters/${semeter.name}`;
     const response = await Repository.post(endpoint, null);
     if (!response.success) {
       throw new Error('response.message');
@@ -15,8 +15,17 @@ class SemesterService {
     return response;
   }
 
-  deteteSemeter(semeterName) {
-    return Repository.delete(`/semeters/${semeterName.id}`);
+  async addSemeterBulk(semeters) {
+    const endpoint = '/semeters';
+    const response = await Repository.post(endpoint, semeters);
+    if (!response.success) {
+      throw new Error(response.message);
+    }
+    return response;
+  }
+
+  deteteSemeter(semeter) {
+    return Repository.delete(`/semeters/${semeter.name}`);
   }
 }
 

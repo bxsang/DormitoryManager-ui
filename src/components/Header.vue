@@ -23,6 +23,9 @@ export default {
       if (currentPage === '/StudentsList') {
         return 'Quản lý sinh viên';
       }
+      if (currentPage === '/Semeters') {
+        return 'Quản lý học kỳ';
+      }
       return '';
     },
   },

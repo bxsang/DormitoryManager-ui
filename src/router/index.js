@@ -8,6 +8,7 @@ import Profile from '@/components/Profile.vue';
 import Sidebar from '@/components/Sidebar.vue';
 
 import StudentsList from '@/components/students_manage/StudentsList.vue';
+import Semeters from '@/components/Semeters.vue';
 
 Vue.use(VueRouter);
 
@@ -41,6 +42,11 @@ const routes = [
     path: '/StudentsList',
     name: 'StudentsList',
     component: StudentsList,
+  },
+  {
+    path: '/Semeters',
+    name: 'Semeters',
+    component: Semeters,
   },
   {
     path: '/about',

@@ -86,6 +86,14 @@
             <mdb-nav-item
               waves-fixed
               router
+              to="/Semeters"
+              v-if="isManager"
+            >
+              QL Học kỳ
+            </mdb-nav-item>
+            <mdb-nav-item
+              waves-fixed
+              router
               to="/about"
               v-if="isAdmin"
             >
@@ -184,9 +192,6 @@ export default {
   computed: {
     currentUser() {
       return this.$store.state.auth.user;
-    },
-    currentPage() {
-      return this.$route.path;
     },
     isAdmin() {
       if (this.currentUser) {
