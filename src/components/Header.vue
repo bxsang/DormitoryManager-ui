@@ -26,6 +26,9 @@ export default {
       if (currentPage === '/Semeters') {
         return 'Quản lý học kỳ';
       }
+      if (currentPage === '/Buildings') {
+        return 'Quản lý Toà nhà';
+      }
       return '';
     },
   },

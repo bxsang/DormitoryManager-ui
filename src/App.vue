@@ -59,7 +59,13 @@
                 Phòng
               </mdb-dropdown-toggle>
               <mdb-dropdown-menu>
-                <mdb-dropdown-item>Danh sách</mdb-dropdown-item>
+                <mdb-dropdown-item
+                  router
+                  to="/Buildings"
+                >
+                  QL toà nhà
+                </mdb-dropdown-item>
+                <mdb-dropdown-item>QL phòng</mdb-dropdown-item>
                 <mdb-dropdown-item>Xếp phòng</mdb-dropdown-item>
                 <mdb-dropdown-item>Phân công trực phòng</mdb-dropdown-item>
               </mdb-dropdown-menu>
