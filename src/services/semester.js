@@ -27,6 +27,15 @@ class SemesterService {
   deteteSemeter(semeter) {
     return Repository.delete(`/semeters/${semeter.name}`);
   }
+
+  async getArrangements(semeter) {
+    const endpoint = `/semeters/${semeter.name}/arrangements`;
+    const response = await Repository.get(endpoint);
+    if (!response) {
+      throw new Error(response);
+    }
+    return response;
+  }
 }
 
 export default new SemesterService();

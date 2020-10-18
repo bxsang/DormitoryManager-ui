@@ -71,7 +71,12 @@
                 >
                   QL phòng
                 </mdb-dropdown-item>
-                <mdb-dropdown-item>Xếp phòng</mdb-dropdown-item>
+                <mdb-dropdown-item
+                  router
+                  to="/RoomsArrange"
+                >
+                  Xếp phòng
+                </mdb-dropdown-item>
                 <mdb-dropdown-item>Phân công trực phòng</mdb-dropdown-item>
               </mdb-dropdown-menu>
             </mdb-dropdown>

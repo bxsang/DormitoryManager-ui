@@ -32,6 +32,9 @@ export default {
       if (currentPage === '/Rooms') {
         return 'Quản lý phòng';
       }
+      if (currentPage === '/RoomsArrange') {
+        return 'Xếp phòng';
+      }
       return '';
     },
   },
