@@ -100,6 +100,13 @@
             </mdb-nav-item>
           </mdb-navbar-nav>
           <mdb-navbar-nav right>
+            <mdb-select
+              v-model="semeters"
+              placeholder="Học kỳ"
+              label=""
+              @change="onSemeterChange($event)"
+              v-if="currentUser"
+            />
             <mdb-nav-item
               waves-fixed
               router
@@ -165,7 +172,15 @@
 </style>
 
 <script>
+import SemesterService from './services/semester';
+
 export default {
+  data() {
+    return {
+      semeters: [],
+      currentSemeter: localStorage.getItem('semeter'),
+    };
+  },
   computed: {
     currentUser() {
       return this.$store.state.auth.user;
@@ -203,11 +218,26 @@ export default {
     pageUp() {
       window.scroll({ top: 0, left: 0, behavior: 'smooth' });
     },
+    getSemeters() {
+      SemesterService.getSemeterList()
+        .then((response) => this.mapSemeters(response))
+        .catch((err) => console.log(err));
+    },
+    mapSemeters(semeters) {
+      for (const semeter in semeters) {
+        const semeterName = semeters[semeter].name;
+        this.semeters.push({
+          text: semeterName,
+          value: semeterName,
+          selected: semeterName === this.currentSemeter,
+        });
+      }
+    },
+    onSemeterChange(event) {
+      this.currentSemeter = event;
+      localStorage.setItem('semeter', event);
+    },
   },
-  data() {
-    return {
-      activeClass: 'active',
-    };
-  },
+  mounted() { this.getSemeters(); },
 };
 </script>
