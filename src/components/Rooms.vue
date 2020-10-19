@@ -69,7 +69,7 @@
                 <mdb-modal-title>Thông tin</mdb-modal-title>
               </mdb-modal-header>
               <mdb-modal-body class="text-center">
-                <p>{{ room_arrangements }}</p>
+                <p v-html="room_arrangements" />
               </mdb-modal-body>
               <mdb-modal-footer center>
                 <mdb-btn

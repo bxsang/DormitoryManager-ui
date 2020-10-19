@@ -79,7 +79,7 @@
                 <mdb-modal-title>Thông tin</mdb-modal-title>
               </mdb-modal-header>
               <mdb-modal-body class="text-center">
-                <p>{{ student_arrangements }}</p>
+                <p v-html="student_arrangements" />
               </mdb-modal-body>
               <mdb-modal-footer center>
                 <mdb-btn
@@ -550,7 +550,7 @@ export default {
         .then((response) => {
           this.student_arrangements = '';
           for (const arrangement of response) {
-            this.student_arrangements += `${arrangement.semeter_name}: ${arrangement.room_name}`;
+            this.student_arrangements += `${arrangement.semeter_name}: ${arrangement.room_name}<br>`;
           }
           this.info_modal = true;
         })
