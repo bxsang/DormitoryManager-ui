@@ -168,9 +168,17 @@
       @click.native.prevent="pageUp"
       color="blue"
       icon="arrow-up"
-      size="lg"
+      size="sm"
       :bottom="30"
       :right="105"
+    />
+    <mdb-btn-fixed
+      @click.native.prevent="darkThemeSwitch"
+      color="blue"
+      icon="lightbulb"
+      size="sm"
+      :bottom="30"
+      :left="105"
     />
   </div>
 </template>
@@ -257,6 +265,28 @@ export default {
     onSemeterChange(event) {
       this.currentSemeter = event;
       localStorage.setItem('semeter', event);
+    },
+    addDarkTheme() {
+      const darkThemeLinkEl = document.createElement('link');
+      darkThemeLinkEl.setAttribute('rel', 'stylesheet');
+      darkThemeLinkEl.setAttribute('href', '/css/darktheme.css');
+      darkThemeLinkEl.setAttribute('id', 'dark-theme-style');
+
+      const docHead = document.querySelector('head');
+      docHead.append(darkThemeLinkEl);
+    },
+    removeDarkTheme() {
+      const darkThemeLinkEl = document.querySelector('#dark-theme-style');
+      const { parentNode } = darkThemeLinkEl;
+      parentNode.removeChild(darkThemeLinkEl);
+    },
+    darkThemeSwitch() {
+      const darkThemeLinkEl = document.querySelector('#dark-theme-style');
+      if (!darkThemeLinkEl) {
+        this.addDarkTheme();
+      } else {
+        this.removeDarkTheme();
+      }
     },
   },
   mounted() { this.getSemeters(); },
