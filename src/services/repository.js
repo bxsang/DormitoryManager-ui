@@ -14,11 +14,10 @@ class Repository {
     this.token = '';
   }
 
-  async get(endpoint, _data = null) {
+  async get(endpoint) {
     this.token = getToken();
     const response = await fetch(`${API_URL}${endpoint}`, {
       headers: { Authorization: `Bearer ${this.token}` },
-      body: JSON.stringify(_data),
     });
     return response.json();
   }
