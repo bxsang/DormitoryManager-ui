@@ -140,7 +140,7 @@ export default {
       return data;
     },
     mapArrangements(json) {
-      this.semeters_json = json;
+      this.arrangements_json = json;
       const keys = ['id', 'room_name', 'student_id', 'semeter_name', 'assigned_time', 'assigned_employee'];
       const entries = this.filterData(json, keys);
       // columns
@@ -162,7 +162,7 @@ export default {
         delimiter: ',',
         header: true,
       };
-      const csv = this.$papa.unparse(this.semeters_json, config);
+      const csv = this.$papa.unparse(this.arrangements_json, config);
       this.$papa.download(csv, `arrangements_${this.semeter.name}_list`);
     },
     getBuildings() {
