@@ -252,6 +252,7 @@
 import Header from './Header.vue';
 import RoomsService from '../services/rooms';
 import Room from '../models/room';
+import Semeter from '../models/semeter';
 
 export default {
   components: {
@@ -274,6 +275,7 @@ export default {
       rooms_bulk: [],
       rooms_bulk_text: '',
       room_arrangements: '',
+      semeter: new Semeter(localStorage.getItem('semeter')),
     };
   },
   computed: {
@@ -396,13 +398,12 @@ export default {
       if (selected) {
         this.room = new Room(selected.name, selected.capacity, selected.building_name);
       }
-      RoomsService.getRoomArrangements(this.room)
+      RoomsService.getRoomArrangementsBySemeter(this.room, this.semeter)
         .then((response) => {
-          // this.room_arrangements = '';
-          // for (const arrangement of response) {
-          //   this.room_arrangements += `${arrangement.semeter_name}: ${arrangement.room_name}`;
-          // }
-          this.room_arrangements = JSON.stringify(response);
+          this.room_arrangements = '';
+          for (const arrangement of response) {
+            this.room_arrangements += `MSSV: ${arrangement.student_id}; Thời gian: ${arrangement.assigned_time}<br>`;
+          }
           this.info_modal = true;
         })
         .catch((error) => {

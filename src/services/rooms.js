@@ -36,6 +36,15 @@ class RoomsService {
     }
     return response;
   }
+
+  async getRoomArrangementsBySemeter(room, semeter) {
+    const endpoint = `/rooms/${room.name}/arrangements/${semeter.name}`;
+    const response = await Repository.get(endpoint);
+    if (!response) {
+      throw new Error(response);
+    }
+    return response;
+  }
 }
 
 export default new RoomsService();
