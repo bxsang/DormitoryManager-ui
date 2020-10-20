@@ -41,7 +41,12 @@
                 >
                   Danh sách
                 </mdb-dropdown-item>
-                <mdb-dropdown-item>Điểm danh</mdb-dropdown-item>
+                <mdb-dropdown-item
+                  router
+                  to="/Attendance"
+                >
+                  Điểm danh
+                </mdb-dropdown-item>
                 <mdb-dropdown-item>Lỗi vi phạm</mdb-dropdown-item>
               </mdb-dropdown-menu>
             </mdb-dropdown>

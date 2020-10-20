@@ -12,6 +12,7 @@ import Semeters from '@/components/Semeters.vue';
 import Buildings from '@/components/Buildings.vue';
 import Rooms from '@/components/Rooms.vue';
 import RoomsArrange from '@/components/RoomsArrange.vue';
+import Attendance from '@/components/Attendance.vue';
 
 Vue.use(VueRouter);
 
@@ -65,6 +66,11 @@ const routes = [
     path: '/RoomsArrange',
     name: 'RoomsArrange',
     component: RoomsArrange,
+  },
+  {
+    path: '/Attendance',
+    name: 'Attendance',
+    component: Attendance,
   },
   {
     path: '/about',
