@@ -14,6 +14,10 @@ class ViolationsService {
     }
     return response;
   }
+
+  deteteViolations(violation) {
+    return Repository.delete(`/violations/${violation.id}`);
+  }
 }
 
 export default new ViolationsService();

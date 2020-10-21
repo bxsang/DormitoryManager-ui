@@ -50,6 +50,15 @@
             class="white-text mx-3"
           >Danh sách lỗi vi phạm</a>
           <div>
+            <mdb-btn
+              outline="white"
+              rounded
+              size="sm"
+              class="px-2"
+              @click.native.prevent="deleteViolation"
+            >
+              <em class="fas fa-times mt-0" />
+            </mdb-btn>
             <mdb-modal
               :show="success_modal"
               @close="success_modal = false"
@@ -208,7 +217,7 @@ export default {
     },
     mapViolations(json) {
       this.violations_json = json;
-      const keys = ['student_id', 'message', 'semeter_name'];
+      const keys = ['id', 'student_id', 'message', 'semeter_name'];
       const entries = this.filterData(json, keys);
       // columns
       this.columns = keys.map((key) => ({
@@ -242,6 +251,20 @@ export default {
           this.add_modal = false;
           this.success_modal = true;
           this.upload_modal = false;
+        })
+        .catch((error) => {
+          this.message = `Error: ${error}`;
+          this.failed_modal = true;
+        });
+    },
+    deleteViolation() {
+      const { selected } = this;
+      if (selected) {
+        this.violation = new Violation(selected.id, this.student_id, localStorage.getItem('semeter'), this.$store.state.auth.user.id, this.violation_text);
+      }
+      ViolationsService.deteteViolations(this.violation)
+        .then(() => {
+          this.success_modal = true;
         })
         .catch((error) => {
           this.message = `Error: ${error}`;
