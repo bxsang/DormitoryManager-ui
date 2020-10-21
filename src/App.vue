@@ -47,7 +47,12 @@
                 >
                   Điểm danh
                 </mdb-dropdown-item>
-                <mdb-dropdown-item>Lỗi vi phạm</mdb-dropdown-item>
+                <mdb-dropdown-item
+                  router
+                  to="/Violations"
+                >
+                  Lỗi vi phạm
+                </mdb-dropdown-item>
               </mdb-dropdown-menu>
             </mdb-dropdown>
             <mdb-dropdown

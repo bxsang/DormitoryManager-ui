@@ -38,6 +38,9 @@ export default {
       if (currentPage === '/Attendance') {
         return 'Điểm danh';
       }
+      if (currentPage === '/Violations') {
+        return 'Quản lý lỗi vi phạm';
+      }
       return '';
     },
   },

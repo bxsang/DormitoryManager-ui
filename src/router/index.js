@@ -13,6 +13,7 @@ import Buildings from '@/components/Buildings.vue';
 import Rooms from '@/components/Rooms.vue';
 import RoomsArrange from '@/components/RoomsArrange.vue';
 import Attendance from '@/components/Attendance.vue';
+import Violations from '@/components/Violations.vue';
 
 Vue.use(VueRouter);
 
@@ -71,6 +72,11 @@ const routes = [
     path: '/Attendance',
     name: 'Attendance',
     component: Attendance,
+  },
+  {
+    path: '/Violations',
+    name: 'Violations',
+    component: Violations,
   },
   {
     path: '/about',
