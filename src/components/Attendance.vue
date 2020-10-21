@@ -5,7 +5,7 @@
       class="pt-5"
     >
       <div class="px-4 pb-4 form-inline d-flex justify-content-center">
-        <p class="pr-4">
+        <p class="px-4">
           Chọn ngày
         </p>
         <mdb-date-picker
@@ -13,6 +13,15 @@
           label="Ngày"
           v-model="date"
           @getValue="onDateChange"
+        />
+        <p class="px-4">
+          Chọn phòng
+        </p>
+        <mdb-select
+          v-model="rooms"
+          placeholder="Phòng"
+          label=""
+          @change="onRoomChange($event)"
         />
       </div>
       <div class="card card-cascade narrower">
@@ -156,6 +165,7 @@
 import Header from './Header.vue';
 import Attendance from '../models/attendance';
 import AttendanceService from '../services/attendance';
+import RoomsService from '../services/rooms';
 
 export default {
   components: {
@@ -164,6 +174,8 @@ export default {
   data() {
     return {
       date: localStorage.getItem('date'),
+      rooms: [],
+      current_room: null,
       attendance: new Attendance(localStorage.getItem('date'), '', ''),
       attendance_json: '',
       columns: [],
@@ -259,9 +271,28 @@ export default {
     onDateChange(date) {
       localStorage.setItem('date', date);
     },
+    onRoomChange(event) {
+      this.current_room = event;
+    },
+    getRooms() {
+      RoomsService.getRoomList()
+        .then((response) => this.mapRooms(response))
+        .catch((err) => console.log(err));
+    },
+    mapRooms(rooms) {
+      for (const room in rooms) {
+        const roomName = rooms[room].name;
+        this.rooms.push({
+          text: roomName,
+          value: roomName,
+          selected: roomName === this.current_room,
+        });
+      }
+    },
   },
   mounted() {
     this.getAttendance();
+    this.getRooms();
   },
 };
 </script>
