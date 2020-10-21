@@ -24,7 +24,41 @@
           @change="onRoomChange($event)"
         />
       </div>
-      <div class="card card-cascade narrower">
+      <div class="card card-cascade narrower mb-5">
+        <div
+          class="view view-cascade gradient-card-header blue-gradient narrower
+            py-2 mx-4 mb-3 d-flex justify-content-between align-items-center"
+        >
+          <a
+            class="white-text mx-3"
+          >Danh sách sinh viên</a>
+          <div>
+            <mdb-btn
+              outline="white"
+              rounded
+              size="sm"
+              class="px-2"
+              @click.native.prevent="addAttendanceOne"
+            >
+              <em class="fas fa-check mt-0" />
+            </mdb-btn>
+          </div>
+        </div>
+        <div class="px-4 pb-4">
+          <mdb-datatable
+            class="text-center"
+            :data="data2"
+            bordered
+            hover
+            responsive
+            :tfoot="false"
+            focus
+            checkbox
+            @selectRow="selected2 = data2.rows[$event]"
+          />
+        </div>
+      </div>
+      <div class="card card-cascade narrower mb-5">
         <div
           class="view view-cascade gradient-card-header blue-gradient narrower
             py-2 mx-4 mb-3 d-flex justify-content-between align-items-center"
@@ -165,7 +199,9 @@
 import Header from './Header.vue';
 import Attendance from '../models/attendance';
 import AttendanceService from '../services/attendance';
+import Room from '../models/room';
 import RoomsService from '../services/rooms';
+import Semeter from '../models/semeter';
 
 export default {
   components: {
@@ -175,12 +211,16 @@ export default {
     return {
       date: localStorage.getItem('date'),
       rooms: [],
+      room: null,
       current_room: null,
       attendance: new Attendance(localStorage.getItem('date'), '', ''),
       attendance_json: '',
       columns: [],
       rows: [],
+      columns2: [],
+      rows2: [],
       selected: null,
+      selected2: null,
       upload_modal: false,
       attendance_bulk: [],
       attendance_bulk_text: '',
@@ -194,6 +234,12 @@ export default {
       return {
         columns: this.columns,
         rows: this.rows,
+      };
+    },
+    data2() {
+      return {
+        columns: this.columns2,
+        rows: this.rows2,
       };
     },
   },
@@ -227,6 +273,17 @@ export default {
       AttendanceService.getAttendance(this.attendance)
         .then((json) => this.mapAttendance(json))
         .catch((err) => console.log(err));
+    },
+    addAttendanceOne() {
+      AttendanceService.addAttendance([{ student_id: this.selected2.student_id, status: 1 }])
+        .then(() => {
+          this.add_modal = false;
+          this.success_modal = true;
+        })
+        .catch((error) => {
+          this.message = `Error: ${error}`;
+          this.failed_modal = true;
+        });
     },
     addAttendanceFile() {
       AttendanceService.addAttendance(this.attendance_bulk)
@@ -273,6 +330,7 @@ export default {
     },
     onRoomChange(event) {
       this.current_room = event;
+      this.getRoomArrangements();
     },
     getRooms() {
       RoomsService.getRoomList()
@@ -288,6 +346,24 @@ export default {
           selected: roomName === this.current_room,
         });
       }
+    },
+    getRoomArrangements() {
+      this.room = new Room(this.current_room, '', '');
+      RoomsService.getRoomArrangementsBySemeter(this.room, new Semeter(localStorage.getItem('semeter')))
+        .then((response) => this.mapRoomArrangement(response))
+        .catch((err) => console.log(err));
+    },
+    mapRoomArrangement(json) {
+      const keys = ['room_name', 'student_id', 'semeter_name'];
+      const entries = this.filterData(json, keys);
+      // columns
+      this.columns2 = keys.map((key) => ({
+        label: key.toUpperCase(),
+        field: key,
+        sort: 'asc',
+      }));
+      // rows
+      entries.map((entry) => this.rows2.push(entry));
     },
   },
   mounted() {
