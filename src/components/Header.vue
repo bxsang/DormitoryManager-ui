@@ -35,6 +35,9 @@ export default {
       if (currentPage === '/RoomsArrange') {
         return 'Xếp phòng';
       }
+      if (currentPage === '/Attendance') {
+        return 'Điểm danh';
+      }
       return '';
     },
   },
