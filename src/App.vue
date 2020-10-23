@@ -116,6 +116,12 @@
                 >
                   Điện nước
                 </mdb-dropdown-item>
+                <mdb-dropdown-item
+                  router
+                  to="/NopTien"
+                >
+                  Nộp tiền
+                </mdb-dropdown-item>
               </mdb-dropdown-menu>
             </mdb-dropdown>
             <mdb-nav-item

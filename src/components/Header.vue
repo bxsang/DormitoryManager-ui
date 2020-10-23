@@ -47,6 +47,9 @@ export default {
       if (currentPage === '/DienNuoc') {
         return 'Quản lý điện nước';
       }
+      if (currentPage === '/NopTien') {
+        return 'Nộp tiền';
+      }
       return '';
     },
   },
