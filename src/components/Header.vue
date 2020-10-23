@@ -44,6 +44,9 @@ export default {
       if (currentPage === '/DotThu') {
         return 'Quản lý đợt thu tiền';
       }
+      if (currentPage === '/DienNuoc') {
+        return 'Quản lý điện nước';
+      }
       return '';
     },
   },

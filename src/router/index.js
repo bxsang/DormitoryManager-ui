@@ -15,6 +15,7 @@ import RoomsArrange from '@/components/RoomsArrange.vue';
 import Attendance from '@/components/Attendance.vue';
 import Violations from '@/components/Violations.vue';
 import DotThu from '@/components/DotThu.vue';
+import DienNuoc from '@/components/DienNuoc.vue';
 
 Vue.use(VueRouter);
 
@@ -83,6 +84,11 @@ const routes = [
     path: '/DotThu',
     name: 'DotThu',
     component: DotThu,
+  },
+  {
+    path: '/DienNuoc',
+    name: 'DienNuoc',
+    component: DienNuoc,
   },
   {
     path: '/about',

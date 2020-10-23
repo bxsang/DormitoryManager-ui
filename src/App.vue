@@ -110,8 +110,12 @@
                 >
                   Đợt thu
                 </mdb-dropdown-item>
-                <mdb-dropdown-item>Nguồn thu</mdb-dropdown-item>
-                <mdb-dropdown-item>Chi phí</mdb-dropdown-item>
+                <mdb-dropdown-item
+                  router
+                  to="/DienNuoc"
+                >
+                  Điện nước
+                </mdb-dropdown-item>
               </mdb-dropdown-menu>
             </mdb-dropdown>
             <mdb-nav-item
