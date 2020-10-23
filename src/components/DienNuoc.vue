@@ -4,6 +4,15 @@
     <mdb-container
       class="pt-5"
     >
+      <div class="px-4 pb-4 form-inline d-flex justify-content-center">
+        <mdb-btn
+          gradient="peach"
+          rounded
+          @click.native="tinhTien"
+        >
+          Tính tiền
+        </mdb-btn>
+      </div>
       <div class="card card-cascade narrower">
         <div
           class="view view-cascade gradient-card-header blue-gradient narrower
@@ -250,7 +259,7 @@ export default {
   },
   data() {
     return {
-      dien_nuoc: new DienNuoc(0, '', '', 0, 0, '', ''),
+      dien_nuoc: new DienNuoc(0, '', localStorage.getItem('semeter'), 0, 0, '', ''),
       dien_nuoc_json: null,
       columns: [],
       rows: [],
@@ -262,6 +271,7 @@ export default {
       failed_modal: false,
       dien_nuoc_bulk: [],
       dien_nuoc_bulk_text: '',
+      room_name: '',
     };
   },
   computed: {
@@ -337,6 +347,21 @@ export default {
       }
       DienNuocService.deteteDienNuoc(this.dien_nuoc)
         .then(() => {
+          this.success_modal = true;
+        })
+        .catch((error) => {
+          this.message = `Error: ${error}`;
+          this.failed_modal = true;
+        });
+    },
+    tinhTien() {
+      const { selected } = this;
+      if (selected) {
+        this.dien_nuoc = new DienNuoc(selected.id, selected.room_name, localStorage.getItem('semeter'), 0, 0, selected.dot_id, '');
+      }
+      DienNuocService.tinhTien([this.dien_nuoc])
+        .then(() => {
+          this.add_modal = false;
           this.success_modal = true;
         })
         .catch((error) => {

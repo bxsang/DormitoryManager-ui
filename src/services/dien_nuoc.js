@@ -18,6 +18,15 @@ class DienNuocService {
   deteteDienNuoc(dienNuoc) {
     return Repository.delete(`/dien_nuoc/${dienNuoc.id}`);
   }
+
+  async tinhTien(dienNuoc) {
+    const endpoint = '/dien_nuoc/tinh_tien';
+    const response = await Repository.post(endpoint, dienNuoc);
+    if (!response.success) {
+      throw new Error('response.message');
+    }
+    return response;
+  }
 }
 
 export default new DienNuocService();
