@@ -41,6 +41,15 @@ export default {
       if (currentPage === '/Violations') {
         return 'Quản lý lỗi vi phạm';
       }
+      if (currentPage === '/DotThu') {
+        return 'Quản lý đợt thu tiền';
+      }
+      if (currentPage === '/DienNuoc') {
+        return 'Quản lý điện nước';
+      }
+      if (currentPage === '/NopTien') {
+        return 'Nộp tiền';
+      }
       return '';
     },
   },
