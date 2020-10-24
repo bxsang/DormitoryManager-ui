@@ -1,64 +1,60 @@
 <template>
   <div class="profile-page">
     <Header />
-    <div
-      class="view pt-5"
-      id="profile_view"
-      style="height: 100vh"
+    <mdb-container
+      class="pt-5 flex-center"
     >
-      <div class="container flex-center">
-        <div class="text-center">
-          <mdb-card wide>
-            <mdb-view
-              hover
-              cascade
-            >
-              <a href="#">
-                <mdb-card-image
-                  src="https://mdbootstrap.com/img/Photos/Others/photo6.jpg"
-                  alt="Card image cap"
-                />
-                <mdb-mask
-                  flex-center
-                  waves
-                  overlay="white-slight"
-                />
-              </a>
-            </mdb-view>
-            <mdb-card-body
-              class="text-center pb-0"
-              cascade
-            >
-              <mdb-card-title><strong>{{ info.name }}</strong></mdb-card-title>
-              <h5 class="blue-text">
-                <strong>{{ info.role }}</strong>
-              </h5>
-              <mdb-card-text v-html="info_text" />
-              <a class="icons-sm li-ic"><mdb-icon
-                fab
-                icon="linkedin"
-              /></a>
-              <a class="icons-sm tw-ic"><mdb-icon
-                fab
-                icon="twitter"
-              /></a>
-              <a class="icons-sm fb-ic"><mdb-icon
-                fab
-                icon="facebook"
-              /></a>
-            </mdb-card-body>
-          </mdb-card>
-          <mdb-btn
-            class="my-5"
-            gradient="peach"
-            rounded
-            @click.native="openEditModal"
+      <div class="text-center">
+        <mdb-card wide>
+          <mdb-view
+            hover
+            cascade
           >
-            Sửa thông tin
-          </mdb-btn>
-        </div>
+            <a href="#">
+              <mdb-card-image
+                src="https://mdbootstrap.com/img/Photos/Others/photo6.jpg"
+                alt="Card image cap"
+              />
+              <mdb-mask
+                flex-center
+                waves
+                overlay="white-slight"
+              />
+            </a>
+          </mdb-view>
+          <mdb-card-body
+            class="text-center pb-0"
+            cascade
+          >
+            <mdb-card-title><strong>{{ info.name }}</strong></mdb-card-title>
+            <h5 class="blue-text">
+              <strong>{{ info.role }}</strong>
+            </h5>
+            <mdb-card-text v-html="info_text" />
+            <a class="icons-sm li-ic"><mdb-icon
+              fab
+              icon="linkedin"
+            /></a>
+            <a class="icons-sm tw-ic"><mdb-icon
+              fab
+              icon="twitter"
+            /></a>
+            <a class="icons-sm fb-ic"><mdb-icon
+              fab
+              icon="facebook"
+            /></a>
+          </mdb-card-body>
+        </mdb-card>
+        <mdb-btn
+          class="my-5"
+          gradient="peach"
+          rounded
+          @click.native="openEditModal"
+        >
+          Sửa thông tin
+        </mdb-btn>
       </div>
-    </div>
+    </mdb-container>
     <mdb-modal
       :show="edit_manager_modal"
       @close="edit_manager_modal = false"
