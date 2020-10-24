@@ -53,6 +53,9 @@ export default {
       if (currentPage === '/ManagersManage') {
         return 'Quản lý tài khoản';
       }
+      if (currentPage === '/profile') {
+        return 'Thông tin tài khoản';
+      }
       return '';
     },
   },
