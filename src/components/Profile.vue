@@ -52,7 +52,7 @@
             class="my-5"
             gradient="peach"
             rounded
-            @click.native="edit_modal = true"
+            @click.native="edit_manager_modal = true"
           >
             Sửa thông tin
           </mdb-btn>
@@ -60,8 +60,8 @@
       </div>
     </div>
     <mdb-modal
-      :show="edit_modal"
-      @close="edit_modal = false"
+      :show="edit_manager_modal"
+      @close="edit_manager_modal = false"
       cascade
       class="text-left"
     >
@@ -115,7 +115,7 @@
       <mdb-modal-footer>
         <mdb-btn
           color="secondary"
-          @click.native="edit_modal = false"
+          @click.native="openEditModal"
         >
           Đóng
         </mdb-btn>
@@ -197,7 +197,8 @@ export default {
       info_text: '',
       manager: new Manager('', '', '', ''),
       student: new Student('', '', '', '', '', ''),
-      edit_modal: false,
+      edit_manager_modal: false,
+      edit_student_modal: false,
       success_modal: false,
       failed_modal: false,
     };
@@ -224,10 +225,17 @@ export default {
       });
   },
   methods: {
+    openEditModal() {
+      if (this.info.role === 'manager' || this.info.role === 'admin') {
+        this.edit_manager_modal = true;
+      } else {
+        this.edit_student_modal = true;
+      }
+    },
     editManager() {
       ManagersManageService.editManager(this.manager)
         .then(() => {
-          this.edit_modal = false;
+          this.edit_manager_modal = false;
           this.success_modal = true;
           this.refreshManagers();
         })
