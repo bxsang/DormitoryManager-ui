@@ -56,6 +56,9 @@ export default {
       if (currentPage === '/profile') {
         return 'Thông tin tài khoản';
       }
+      if (currentPage === '/StudentHome') {
+        return 'Thông tin';
+      }
       return '';
     },
   },

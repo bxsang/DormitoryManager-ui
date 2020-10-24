@@ -45,6 +45,24 @@ class StudentsManageService {
     }
     return response;
   }
+
+  async getStudentViolations(student) {
+    const endpoint = `/students/${student.id}/violations`;
+    const response = await Repository.get(endpoint);
+    if (!response) {
+      throw new Error(response);
+    }
+    return response;
+  }
+
+  async getStudentFinance(student) {
+    const endpoint = `/students/${student.id}/finance`;
+    const response = await Repository.get(endpoint);
+    if (!response) {
+      throw new Error(response);
+    }
+    return response;
+  }
 }
 
 export default new StudentsManageService();
