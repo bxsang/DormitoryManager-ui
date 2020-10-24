@@ -50,6 +50,9 @@ export default {
       if (currentPage === '/NopTien') {
         return 'Nộp tiền';
       }
+      if (currentPage === '/ManagersManage') {
+        return 'Quản lý tài khoản';
+      }
       return '';
     },
   },

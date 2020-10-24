@@ -135,7 +135,7 @@
             <mdb-nav-item
               waves-fixed
               router
-              to="/about"
+              to="/ManagersManage"
               v-if="isAdmin"
             >
               QL tài khoản

@@ -17,6 +17,7 @@ import Violations from '@/components/Violations.vue';
 import DotThu from '@/components/DotThu.vue';
 import DienNuoc from '@/components/DienNuoc.vue';
 import NopTien from '@/components/NopTien.vue';
+import ManagersManage from '@/components/ManagersManage.vue';
 
 Vue.use(VueRouter);
 
@@ -95,6 +96,11 @@ const routes = [
     path: '/NopTien',
     name: 'NopTien',
     component: NopTien,
+  },
+  {
+    path: '/ManagersManage',
+    name: 'ManagersManage',
+    component: ManagersManage,
   },
   {
     path: '/about',
