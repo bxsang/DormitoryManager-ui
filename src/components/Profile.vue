@@ -48,15 +48,143 @@
               /></a>
             </mdb-card-body>
           </mdb-card>
+          <mdb-btn
+            class="my-5"
+            gradient="peach"
+            rounded
+            @click.native="edit_modal = true"
+          >
+            Sửa thông tin
+          </mdb-btn>
         </div>
       </div>
     </div>
+    <mdb-modal
+      :show="edit_modal"
+      @close="edit_modal = false"
+      cascade
+      class="text-left"
+    >
+      <mdb-modal-header class="primary-color white-text">
+        <h4 class="title">
+          <em class="fas fa-pencil-alt" /> Sửa thông tin
+        </h4>
+      </mdb-modal-header>
+      <mdb-modal-body class="grey-text">
+        <mdb-input
+          size="sm"
+          label="Tên"
+          group
+          type="text"
+          validate
+          error="wrong"
+          success="right"
+          v-model="manager.name"
+        />
+        <mdb-input
+          size="sm"
+          label="Email"
+          group
+          type="email"
+          validate
+          error="wrong"
+          success="right"
+          v-model="manager.email"
+        />
+        <mdb-input
+          size="sm"
+          label="Tên tài khoản"
+          group
+          type="text"
+          validate
+          error="wrong"
+          success="right"
+          v-model="manager.username"
+        />
+        <mdb-input
+          size="sm"
+          label="Mật khẩu"
+          group
+          type="password"
+          validate
+          error="wrong"
+          success="right"
+          v-model="manager.password"
+        />
+      </mdb-modal-body>
+      <mdb-modal-footer>
+        <mdb-btn
+          color="secondary"
+          @click.native="edit_modal = false"
+        >
+          Đóng
+        </mdb-btn>
+        <mdb-btn
+          color="primary"
+          @click.native.prevent="editManager"
+        >
+          Sửa
+        </mdb-btn>
+      </mdb-modal-footer>
+    </mdb-modal>
+    <mdb-modal
+      :show="success_modal"
+      @close="success_modal = false"
+      success
+    >
+      <mdb-modal-header>
+        <mdb-modal-title>Success</mdb-modal-title>
+      </mdb-modal-header>
+      <mdb-modal-body class="text-center">
+        <mdb-icon
+          icon="check"
+          size="4x"
+          class="mb-3 animated rotateIn"
+        />
+      </mdb-modal-body>
+      <mdb-modal-footer center>
+        <mdb-btn
+          outline="success"
+          @click.native="success_modal = false"
+        >
+          Đóng
+        </mdb-btn>
+      </mdb-modal-footer>
+    </mdb-modal>
+    <mdb-modal
+      :show="failed_modal"
+      @close="failed_modal = false"
+      danger
+    >
+      <mdb-modal-header>
+        <mdb-modal-title>Failed</mdb-modal-title>
+      </mdb-modal-header>
+      <mdb-modal-body class="text-center">
+        <mdb-icon
+          icon="times"
+          size="4x"
+          class="mb-3 animated rotateIn"
+        />
+        <p>{{ message }}</p>
+      </mdb-modal-body>
+      <mdb-modal-footer center>
+        <mdb-btn
+          outline="danger"
+          @click.native="failed_modal = false"
+        >
+          Đóng
+        </mdb-btn>
+      </mdb-modal-footer>
+    </mdb-modal>
   </div>
 </template>
 
 <script>
 import Header from './Header.vue';
 import AuthService from '../services/auth.service';
+import Manager from '../models/manager';
+import Student from '../models/student';
+import ManagersManageService from '../services/managers_manage';
 
 export default {
   name: 'Profile',
@@ -65,8 +193,13 @@ export default {
   },
   data() {
     return {
-      info: null,
+      info: '',
       info_text: '',
+      manager: new Manager('', '', '', ''),
+      student: new Student('', '', '', '', '', ''),
+      edit_modal: false,
+      success_modal: false,
+      failed_modal: false,
     };
   },
   mounted() {
@@ -77,15 +210,32 @@ export default {
       .then((response) => {
         this.info = response;
         if (response.role) {
+          this.manager = new Manager(response.name, response.email, response.username, null);
           this.info_text = `Tên tài khoản: ${response.username}<br>Email: ${response.email}<br>Ngày tạo: ${response.created_date}`;
         } else {
           this.info.role = 'student';
+          this.student = new Student(response.id, response.name, null, response.hometown,
+            response.nationality, response.faculty);
           this.info_text = `MSSV: ${response.id}<br>Khoa: ${response.faculty}<br>Quốc tịch: ${response.nationality}<br>Quê quán: ${response.hometown}<br>Ngày tạo: ${response.created_date}`;
         }
       })
       .catch((error) => {
         this.info = `Error: ${error}`;
       });
+  },
+  methods: {
+    editManager() {
+      ManagersManageService.editManager(this.manager)
+        .then(() => {
+          this.edit_modal = false;
+          this.success_modal = true;
+          this.refreshManagers();
+        })
+        .catch((error) => {
+          this.message = `Error: ${error}`;
+          this.failed_modal = true;
+        });
+    },
   },
 };
 </script>
