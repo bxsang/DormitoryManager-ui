@@ -52,7 +52,7 @@
             class="my-5"
             gradient="peach"
             rounded
-            @click.native="edit_manager_modal = true"
+            @click.native="openEditModal"
           >
             Sửa thông tin
           </mdb-btn>
@@ -115,13 +115,101 @@
       <mdb-modal-footer>
         <mdb-btn
           color="secondary"
-          @click.native="openEditModal"
+          @click.native="edit_manager_modal = false"
         >
           Đóng
         </mdb-btn>
         <mdb-btn
           color="primary"
           @click.native.prevent="editManager"
+        >
+          Sửa
+        </mdb-btn>
+      </mdb-modal-footer>
+    </mdb-modal>
+    <mdb-modal
+      :show="edit_student_modal"
+      @close="edit_student_modal = false"
+      cascade
+      class="text-left"
+    >
+      <mdb-modal-header class="primary-color white-text">
+        <h4 class="title">
+          <em class="fas fa-pencil-alt" /> Sửa thông tin sinh viên
+        </h4>
+      </mdb-modal-header>
+      <mdb-modal-body class="grey-text">
+        <mdb-input
+          size="sm"
+          label="MSSV"
+          group
+          type="text"
+          validate
+          error="wrong"
+          success="right"
+          v-model="student.id"
+        />
+        <mdb-input
+          size="sm"
+          label="Tên"
+          group
+          type="email"
+          validate
+          error="wrong"
+          success="right"
+          v-model="student.name"
+        />
+        <mdb-input
+          size="sm"
+          label="Mật khẩu"
+          group
+          type="password"
+          validate
+          error="wrong"
+          success="right"
+          v-model="student.password"
+        />
+        <mdb-input
+          size="sm"
+          label="Quê quán"
+          group
+          type="text"
+          validate
+          error="wrong"
+          success="right"
+          v-model="student.hometown"
+        />
+        <mdb-input
+          size="sm"
+          label="Quốc tịch"
+          group
+          type="text"
+          validate
+          error="wrong"
+          success="right"
+          v-model="student.nationality"
+        />
+        <mdb-input
+          size="sm"
+          label="Khoa"
+          group
+          type="text"
+          validate
+          error="wrong"
+          success="right"
+          v-model="student.faculty"
+        />
+      </mdb-modal-body>
+      <mdb-modal-footer>
+        <mdb-btn
+          color="secondary"
+          @click.native="edit_student_modal = false"
+        >
+          Đóng
+        </mdb-btn>
+        <mdb-btn
+          color="primary"
+          @click.native.prevent="editStudent"
         >
           Sửa
         </mdb-btn>
@@ -185,6 +273,7 @@ import AuthService from '../services/auth.service';
 import Manager from '../models/manager';
 import Student from '../models/student';
 import ManagersManageService from '../services/managers_manage';
+import StudentsManageService from '../services/students_manage.service';
 
 export default {
   name: 'Profile',
@@ -201,6 +290,7 @@ export default {
       edit_student_modal: false,
       success_modal: false,
       failed_modal: false,
+      message: '',
     };
   },
   mounted() {
@@ -228,8 +318,10 @@ export default {
     openEditModal() {
       if (this.info.role === 'manager' || this.info.role === 'admin') {
         this.edit_manager_modal = true;
+        console.log('manager');
       } else {
         this.edit_student_modal = true;
+        console.log('sv');
       }
     },
     editManager() {
@@ -237,7 +329,17 @@ export default {
         .then(() => {
           this.edit_manager_modal = false;
           this.success_modal = true;
-          this.refreshManagers();
+        })
+        .catch((error) => {
+          this.message = `Error: ${error}`;
+          this.failed_modal = true;
+        });
+    },
+    editStudent() {
+      StudentsManageService.editStudent(this.student)
+        .then(() => {
+          this.edit_student_modal = false;
+          this.success_modal = true;
         })
         .catch((error) => {
           this.message = `Error: ${error}`;
