@@ -31,7 +31,7 @@
           </div>
           <a
             class="white-text mx-3"
-          >Danh sách Học kỳ</a>
+          >Danh sách toà nhà</a>
           <div>
             <mdb-btn
               outline="white"
