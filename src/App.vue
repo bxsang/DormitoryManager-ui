@@ -87,7 +87,6 @@
                 >
                   Xếp phòng
                 </mdb-dropdown-item>
-                <mdb-dropdown-item>Phân công trực phòng</mdb-dropdown-item>
               </mdb-dropdown-menu>
             </mdb-dropdown>
             <mdb-dropdown
